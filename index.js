@@ -3,6 +3,7 @@ import "dotenv/config";
 import initKnex from "knex";
 import configuration from "./knexfile.js";
 import cors from "cors";
+import usersRoutes from "./routes/users_routes.js"
 
 const knex = initKnex(configuration);
 
@@ -16,7 +17,7 @@ app.get("/", (_req, res) => {
   res.json({ message: "Welcome! to Pathwise DB" });
 });
 
-
+app.use("/api/users", usersRoutes);
 
 app.listen(PORT, () => {
   console.log(knex.client.config);
