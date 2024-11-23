@@ -3,7 +3,9 @@ import "dotenv/config";
 import initKnex from "knex";
 import configuration from "./knexfile.js";
 import cors from "cors";
-import usersRoutes from "./routes/users_routes.js"
+import usersRoutes from "./routes/users_routes.js";
+import skillsRoutes from "./routes/skills_routes.js";
+import achievementsRoutes from "./routes/achievements_route.js"
 
 const knex = initKnex(configuration);
 
@@ -18,6 +20,8 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/users", usersRoutes);
+app.use("/api/skills", skillsRoutes);
+app.use("/api/achievements", achievementsRoutes);
 
 app.listen(PORT, () => {
   console.log(knex.client.config);
