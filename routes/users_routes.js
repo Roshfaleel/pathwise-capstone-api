@@ -9,6 +9,9 @@ router.route("/").get(usersController.index).post(usersController.createUser);
 //Hit this route "/email/:email"
 router.get("/email/:email", usersController.getUserByEmail);
 
+//Hit this route "/login"
+router.post("/login", usersController.loginUser);
+
 //Hit this route on "/users/:id"
 router
   .route("/:id")

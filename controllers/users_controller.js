@@ -59,6 +59,28 @@ const getOneUser = async (req, res) => {
   }
 };
 
+//Get a user based on email and password 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+
+  try {
+    const user = await knex("users").where({ email, password }).first();
+
+    if (!user) {
+      return res.status(404).json({ message: "Invalid email or password" });
+    }
+
+    res.status(200).json({ message: "Login successful", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //Post one user
 const createUser = async (req, res) => {
   const { email, password, name } = req.body;
@@ -318,6 +340,7 @@ export {
   getOneUser,
   createUser,
   getUserByEmail,
+  loginUser,
   getUserSkills,
   getUserAchievements,
   addSkill,
