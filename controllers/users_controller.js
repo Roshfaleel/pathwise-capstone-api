@@ -66,17 +66,22 @@ const loginUser = async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
   }
-
   try {
     const user = await knex("users").where({ email, password }).first();
 
     if (!user) {
+      console.log("no user")
       return res.status(404).json({ message: "Invalid email or password" });
+      
     }
 
+    if (user.password !== password) {
+      return res.status(404).json({ message: "Invalid email or password" });  // Handle incorrect password
+    }
+    console.log("User found:", user);
     res.status(200).json({ message: "Login successful", user });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
