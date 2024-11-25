@@ -22,6 +22,22 @@ const index = async (req, res) => {
   }
 };
 
+//get user by Email
+const getUserByEmail = async (req,res) =>{
+  const {email} = req.params;
+  try {
+    const user = await knex("users").where({ email }).first();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Unable to retrieve user data" });
+  }
+}
+
 //get one user
 const getOneUser = async (req, res) => {
   const userId = req.params.id;
@@ -301,6 +317,7 @@ export {
   index,
   getOneUser,
   createUser,
+  getUserByEmail,
   getUserSkills,
   getUserAchievements,
   addSkill,
