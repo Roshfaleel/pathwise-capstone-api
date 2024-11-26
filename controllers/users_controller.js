@@ -171,7 +171,8 @@ const getUserAchievements = async (req, res) => {
     res.status(200).json({
       user_id: userId,
       achievements: userAchievements.map(
-        ({ achievement_name, description, date, type }) => ({
+        ({ achievement_id,achievement_name, description, date, type }) => ({
+          achievement_id,
           achievement_name,
           description,
           date,
