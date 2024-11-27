@@ -140,7 +140,8 @@ const getUserSkills = async (req, res) => {
 
     res.status(200).json({
       user_id: userId,
-      skills: userSkills.map(({ skill_name, proficiency_level }) => ({
+      skills: userSkills.map(({ skill_id, skill_name, proficiency_level }) => ({
+        skill_id,
         skill_name,
         proficiency_level,
       })),
