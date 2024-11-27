@@ -214,8 +214,9 @@ const addSkill = async (req, res) => {
 
 //Update a skill -PUT API
 const updateSkill = async (req, res) => {
-  const userId = req.params.id;
-  const { skill_name, proficiency_level } = req.body;
+  const userId = req.params.id;  
+  const skillId = req.params.skillId;  
+  const { skill_name, proficiency_level } = req.body; 
 
   try {
     const updatedRows = await knex("skills")
@@ -227,6 +228,7 @@ const updateSkill = async (req, res) => {
         message: `Skill with ID ${skillId} for user ${userId} not found`,
       });
     }
+
     res.status(200).json({
       message: "Skill updated successfully",
     });
