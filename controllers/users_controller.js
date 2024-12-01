@@ -132,12 +132,6 @@ const getUserSkills = async (req, res) => {
   try {
     const userSkills = await knex("skills").where({ user_id: userId });
 
-    if (userSkills.length === 0) {
-      return res.status(404).json({
-        message: `No skills found for user with ID ${userId}`,
-      });
-    }
-
     res.status(200).json({
       user_id: userId,
       skills: userSkills.map(({ skill_id, skill_name, proficiency_level }) => ({
@@ -163,16 +157,10 @@ const getUserAchievements = async (req, res) => {
       user_id: userId,
     });
 
-    if (userAchievements.length === 0) {
-      return res.status(404).json({
-        message: `No achievements found for user with ID ${userId}`,
-      });
-    }
-
     res.status(200).json({
       user_id: userId,
       achievements: userAchievements.map(
-        ({ achievement_id,achievement_name, description, date, type }) => ({
+        ({ achievement_id, achievement_name, description, date, type }) => ({
           achievement_id,
           achievement_name,
           description,
