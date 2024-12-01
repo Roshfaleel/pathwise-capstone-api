@@ -3,6 +3,16 @@
 ## **Base URL**
 http://localhost:<PORT>/api
 
+## Setup
+
+- 1. Clone the repository: `git clone <https://github.com/Roshfaleel/roshani-faleel-capstone-api>`
+- 2. Install dependencies: `npm install`
+- 3. Set environment variables in a `.env` file.
+
+## Run
+- Start the server: `npm start`
+- Access the app at: `http://localhost:8080`
+
 ---
 
 ## **Endpoints**
