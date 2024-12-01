@@ -59,6 +59,33 @@ const getOneUser = async (req, res) => {
   }
 };
 
+//Get a user based on email and password 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+  try {
+    const user = await knex("users").where({ email, password }).first();
+
+    if (!user) {
+      console.log("no user")
+      return res.status(404).json({ message: "Invalid email or password" });
+      
+    }
+
+    if (user.password !== password) {
+      return res.status(404).json({ message: "Invalid email or password" });  // Handle incorrect password
+    }
+    console.log("User found:", user);
+    res.status(200).json({ message: "Login successful", user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //Post one user
 const createUser = async (req, res) => {
   const { email, password, name } = req.body;
@@ -105,15 +132,10 @@ const getUserSkills = async (req, res) => {
   try {
     const userSkills = await knex("skills").where({ user_id: userId });
 
-    if (userSkills.length === 0) {
-      return res.status(404).json({
-        message: `No skills found for user with ID ${userId}`,
-      });
-    }
-
     res.status(200).json({
       user_id: userId,
-      skills: userSkills.map(({ skill_name, proficiency_level }) => ({
+      skills: userSkills.map(({ skill_id, skill_name, proficiency_level }) => ({
+        skill_id,
         skill_name,
         proficiency_level,
       })),
@@ -135,16 +157,11 @@ const getUserAchievements = async (req, res) => {
       user_id: userId,
     });
 
-    if (userAchievements.length === 0) {
-      return res.status(404).json({
-        message: `No achievements found for user with ID ${userId}`,
-      });
-    }
-
     res.status(200).json({
       user_id: userId,
       achievements: userAchievements.map(
-        ({ achievement_name, description, date, type }) => ({
+        ({ achievement_id, achievement_name, description, date, type }) => ({
+          achievement_id,
           achievement_name,
           description,
           date,
@@ -185,8 +202,9 @@ const addSkill = async (req, res) => {
 
 //Update a skill -PUT API
 const updateSkill = async (req, res) => {
-  const userId = req.params.id;
-  const { skill_name, proficiency_level } = req.body;
+  const userId = req.params.id;  
+  const skillId = req.params.skillId;  
+  const { skill_name, proficiency_level } = req.body; 
 
   try {
     const updatedRows = await knex("skills")
@@ -198,6 +216,7 @@ const updateSkill = async (req, res) => {
         message: `Skill with ID ${skillId} for user ${userId} not found`,
       });
     }
+
     res.status(200).json({
       message: "Skill updated successfully",
     });
@@ -318,6 +337,7 @@ export {
   getOneUser,
   createUser,
   getUserByEmail,
+  loginUser,
   getUserSkills,
   getUserAchievements,
   addSkill,
