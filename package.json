@@ -10,8 +10,7 @@
     "migrate:down": "npx knex migrate:down",
     "migrate:rollback": "npx knex migrate:rollback",
     "seed": "npx knex seed:run",
-    "start": "node index.js",
-    "build" : "node build"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
