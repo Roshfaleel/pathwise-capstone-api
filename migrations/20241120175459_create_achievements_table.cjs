@@ -2,7 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = function(knex) {
+module.exports.up = function(knex){
   return knex.schema.createTable('achievements', function(table){
     table.increments('achievement_id').primary();
     table.integer('user_id').unsigned().notNullable();
@@ -19,6 +19,6 @@ exports.up = function(knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function(knex) {
+module.exports.down = function(knex){
   return knex.schema.dropTableIfExists('achievements');
 };
